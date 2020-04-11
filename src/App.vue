@@ -7,13 +7,13 @@
             <div class="grid grid-cols-2 gap-4 w-full">
                 <BaseButton
                     v-if="!capturingSpeech"
-                    @click="getSpeech"
+                    @click.native="getSpeech"
                     :disabled="correct"
                     text="Talk"
                 />
-                <BaseButton v-else @click="stop" text="Stop" />
+                <BaseButton v-else @click.native="stop" text="Stop" />
 
-                <BaseButton @click="getNextLetter" :disabled="!correct" text="next" />
+                <BaseButton @click.native="getNextLetter" :disabled="!correct" text="next" />
             </div>
         </div>
     </div>

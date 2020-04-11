@@ -84,7 +84,8 @@ export default {
 
         // check to see if speech recognition is supported in this browser
         if (window.SpeechRecognition || window.webkitSpeechRecognition) {
-            this.recognition = await import('@/api/speechApi.js');
+            const api = await import('@/api/speechApi.js');
+            this.recognition = api.default;
         } else {
             this.supported = false;
         }

@@ -78,6 +78,9 @@ recognition.filter = function(speech) {
         case 'in':
             letter = 'n';
             break;
+        case 'ar':
+            letter = 'r';
+            break;
         default:
             letter = speech;
             break;

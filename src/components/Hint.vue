@@ -1,5 +1,8 @@
 <template>
-    <button @click="speakLetter" class="text-sm text-white text-center col-span-2 hover:underline">
+    <button
+        @click="speakLetter"
+        class="text-sm text-white text-center col-span-2 hover:underline px-4 py-2"
+    >
         Need help?
     </button>
 </template>

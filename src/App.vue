@@ -19,6 +19,7 @@
             </div>
         </div>
         <Unsupported v-else />
+        <Footer />
     </div>
 </template>
 
@@ -26,10 +27,11 @@
 export default {
     name: 'App',
     components: {
+        BaseButton: () => import('@/components/BaseButton'),
+        Footer: () => import('@/components/Footer'),
+        Hint: () => import('@/components/Hint'),
         Letterbox: () => import('@/components/Letterbox'),
         Speech: () => import('@/components/Speech'),
-        BaseButton: () => import('@/components/BaseButton'),
-        Hint: () => import('@/components/Hint'),
         Unsupported: () => import('@/components/Unsupported'),
     },
 

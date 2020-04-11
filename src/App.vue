@@ -70,7 +70,7 @@ export default {
             error: false,
             errors: [],
             speechReceived: '',
-            status: 'Click "Talk" to begin!',
+            status: 'Press "Talk" to begin!',
         };
     },
 

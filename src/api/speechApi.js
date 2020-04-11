@@ -76,6 +76,9 @@ recognition.filter = function(speech) {
         case 'tea':
             letter = 't';
             break;
+        case 'in':
+            letter = 'n';
+            break;
         default:
             letter = speech;
             break;

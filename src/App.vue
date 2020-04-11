@@ -2,7 +2,7 @@
     <div id="app" class="bg-gray-900 h-screen grid place-center">
         <div class="grid place-center gap-8 lg:w-1/4">
             <h1 class="text-xl text-white font-black tracking-widest uppercase">{{ status }}</h1>
-            <Letterbox :letter="currentLetter" />
+            <Letterbox :letter="currentLetter" :correct="correct" />
             <Speech :speechReceived="speechReceived" />
             <div class="grid grid-cols-2 gap-4 w-full">
                 <BaseButton
@@ -15,7 +15,7 @@
 
                 <BaseButton @click.native="getNextLetter" :disabled="!correct" text="next" />
 
-                <Hint :letter='currentLetter' />
+                <Hint :letter="currentLetter" :voice="voice" />
             </div>
         </div>
     </div>
@@ -30,8 +30,9 @@ export default {
         Letterbox: () => import('@/components/Letterbox'),
         Speech: () => import('@/components/Speech'),
         BaseButton: () => import('@/components/BaseButton'),
-        Hint: () => import('@/components/Hint')
+        Hint: () => import('@/components/Hint'),
     },
+
     data() {
         return {
             alphabet: [
@@ -70,11 +71,15 @@ export default {
             errors: [],
             speechReceived: '',
             status: 'Press "Talk" to begin!',
+            voice: null,
         };
     },
 
     mounted() {
         this.getNextLetter();
+
+        const voices = speechSynthesis.getVoices();
+        this.voice = voices.filter(v => v.name.toLowerCase() === 'samantha');
     },
 
     methods: {
@@ -106,8 +111,10 @@ export default {
             if (letter === this.currentLetter) {
                 this.status = 'Nice Job!';
                 this.correct = true;
+                this.speak(this.status);
             } else {
-                this.status = `Hmmm, that doesn't seem right. Try again.`;
+                this.status = `That doesn't seem right. Try again.`;
+                this.speak(this.status);
             }
         },
 
@@ -115,6 +122,16 @@ export default {
             recognition.stop();
             this.capturingSpeech = false;
             this.status = `I'm having trouble hearing you, try again?`;
+            this.speak(this.status);
+        },
+
+        speak(text) {
+            // TODO figure out why importing the textToSpeech helper doesn't work in this file
+            const synth = window.speechSynthesis;
+            const utterThis = new SpeechSynthesisUtterance(text);
+            utterThis.voice = this.voice[0];
+
+            synth.speak(utterThis);
         },
 
         noMatch() {

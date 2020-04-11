@@ -1,6 +1,6 @@
 <template>
     <div id="app" class="bg-gray-900 h-screen grid place-center">
-        <div class="grid place-center gap-8 lg:w-1/4">
+        <div class="grid place-center gap-8 lg:w-1/4" v-if="supported">
             <h1 class="text-xl text-white font-black tracking-widest uppercase">{{ status }}</h1>
             <Letterbox :letter="currentLetter" :correct="correct" />
             <Speech :speechReceived="speechReceived" />
@@ -18,12 +18,11 @@
                 <Hint :letter="currentLetter" :voice="voice" />
             </div>
         </div>
+        <Unsupported v-else />
     </div>
 </template>
 
 <script>
-import recognition from '@/api/speechApi';
-
 export default {
     name: 'App',
     components: {
@@ -31,6 +30,7 @@ export default {
         Speech: () => import('@/components/Speech'),
         BaseButton: () => import('@/components/BaseButton'),
         Hint: () => import('@/components/Hint'),
+        Unsupported: () => import('@/components/Unsupported'),
     },
 
     data() {
@@ -69,14 +69,23 @@ export default {
             correct: false,
             error: false,
             errors: [],
+            recognition: null,
             speechReceived: '',
             status: 'Press "Talk" to begin!',
+            supported: true,
             voice: null,
         };
     },
 
-    mounted() {
+    async mounted() {
         this.getNextLetter();
+
+        // check to see if speech recognition is supported in this browser
+        if (window.SpeechRecognition || window.webkitSpeechRecognition) {
+            this.recognition = await import('@/api/speechApi.js');
+        } else {
+            this.supported = false;
+        }
 
         const voices = speechSynthesis.getVoices();
         this.voice = voices.filter(v => v.name.toLowerCase() === 'samantha');
@@ -93,19 +102,19 @@ export default {
         getSpeech() {
             this.capturingSpeech = true;
             this.status = 'Listening...';
-            recognition.start();
+            this.recognition.start();
 
             // handle recognition events
-            recognition.onresult = this.speechResult;
-            recognition.onnomatch = this.noMatch;
-            recognition.onerror = this.handleRecognitionError;
+            this.recognition.onresult = this.speechResult;
+            this.recognition.onnomatch = this.noMatch;
+            this.recognition.onerror = this.handleRecognitionError;
         },
 
         speechResult(e) {
-            recognition.stop();
+            this.recognition.stop();
             this.capturingSpeech = false;
 
-            const letter = recognition.filter(e.results[0][0].transcript.toLowerCase());
+            const letter = this.recognition.filter(e.results[0][0].transcript.toLowerCase());
 
             this.speechReceived = `Received: ${letter}`;
             if (letter === this.currentLetter) {
@@ -119,7 +128,7 @@ export default {
         },
 
         stop() {
-            recognition.stop();
+            this.recognition.stop();
             this.capturingSpeech = false;
             this.status = `I'm having trouble hearing you, try again?`;
             this.speak(this.status);

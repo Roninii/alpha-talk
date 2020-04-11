@@ -60,14 +60,22 @@ recognition.filter = function(speech) {
             break;
         case 'oh':
             letter = 'o';
+            break;
         case 'jay':
             letter = 'j';
+            break;
         case 'see':
             letter = 'c';
+            break;
         case 'hey':
             letter = 'a';
+            break;
         case 'jay':
             letter = 'j';
+            break;
+        case 'tea':
+            letter = 't';
+            break;
         default:
             letter = speech;
             break;

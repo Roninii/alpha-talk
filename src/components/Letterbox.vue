@@ -1,7 +1,7 @@
 <template>
     <div class="grid justify-center items-center w-full relative">
-        <transition name="slide">
-            <h2 class="text-6xl text-purple-600 uppercase w-full" ref="letterbox">
+        <transition name="slide grid place-center">
+            <h2 class="text-6xl text-purple-600 uppercase w-full text-center" ref="letterbox">
                 {{ letter }}
             </h2>
         </transition>

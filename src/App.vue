@@ -14,6 +14,8 @@
                 <BaseButton v-else @click.native="stop" text="Stop" />
 
                 <BaseButton @click.native="getNextLetter" :disabled="!correct" text="next" />
+
+                <Hint :letter='currentLetter' />
             </div>
         </div>
     </div>
@@ -28,6 +30,7 @@ export default {
         Letterbox: () => import('@/components/Letterbox'),
         Speech: () => import('@/components/Speech'),
         BaseButton: () => import('@/components/BaseButton'),
+        Hint: () => import('@/components/Hint')
     },
     data() {
         return {

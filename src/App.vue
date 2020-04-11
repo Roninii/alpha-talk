@@ -5,20 +5,15 @@
             <Letterbox :letter="currentLetter" />
             <Speech :speechReceived="speechReceived" />
             <div class="grid grid-cols-2 gap-4 w-full">
-                <button
+                <BaseButton
+                    v-if="!capturingSpeech"
                     @click="getSpeech"
-                    :disabled="capturingSpeech || correct"
-                    class="bg-purple-600 font-black text-md px-4 py-2 rounded text-white disabled:bg-gray-600 disabled:text-white uppercase"
-                >
-                    Talk
-                </button>
-                <button
-                    @click="getNextLetter"
-                    :disabled="!correct"
-                    class="border-2 border-purple-600 text-white font-black rounded disabled:border-gray-600 disabled:text-gray-600 uppercase"
-                >
-                    Next
-                </button>
+                    :disabled="correct"
+                    text="Talk"
+                />
+                <BaseButton v-else @click="stop" text="Stop" />
+
+                <BaseButton @click="getNextLetter" :disabled="!correct" text="next" />
             </div>
         </div>
     </div>
@@ -32,6 +27,7 @@ export default {
     components: {
         Letterbox: () => import('@/components/Letterbox'),
         Speech: () => import('@/components/Speech'),
+        BaseButton: () => import('@/components/BaseButton'),
     },
     data() {
         return {
@@ -110,6 +106,12 @@ export default {
             } else {
                 this.status = `Hmmm, that doesn't seem right. Try again.`;
             }
+        },
+
+        stop() {
+            recognition.stop();
+            this.capturingSpeech = false;
+            this.status = `I'm having trouble hearing you, try again?`;
         },
 
         noMatch() {

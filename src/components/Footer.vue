@@ -1,5 +1,5 @@
 <template functional>
-    <footer class="absolute bottom-0 w-full px-8 py-4 grid justify-center">
+    <footer class="w-full px-8 py-4 grid justify-center">
         <p class="text-sm text-white">Made with 💜 by Ronnie Villarini</p>
         <div class="grid grid-flow-col place-center">
             <a href="https://twitter.com/_ronini" class="px-4 py-2">

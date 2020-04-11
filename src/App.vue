@@ -1,6 +1,6 @@
 <template>
-    <div id="app" class="bg-gray-900 h-screen grid place-center">
-        <div class="grid place-center gap-8 lg:w-1/4" v-if="supported">
+    <div id="app" class="bg-gray-900 min-h-screen grid place-center">
+        <div class="grid place-center gap-8 px-4 lg:w-1/4" v-if="supported">
             <h1 class="text-xl text-white font-black tracking-widest uppercase">{{ status }}</h1>
             <Letterbox :letter="currentLetter" :correct="correct" />
             <Speech :speechReceived="speechReceived" />

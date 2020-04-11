@@ -1,6 +1,6 @@
 <template>
     <div id="app" class="bg-gray-900 h-screen grid place-center">
-        <div class="grid place-center gap-8 w-1/4">
+        <div class="grid place-center gap-8 lg:w-1/4">
             <h1 class="text-xl text-white font-black tracking-widest uppercase">{{ status }}</h1>
             <Letterbox :letter="currentLetter" />
             <Speech :speechReceived="speechReceived" />
